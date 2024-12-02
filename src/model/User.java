@@ -3,7 +3,11 @@ package model;
 import java.util.ArrayList;
 import model.*;
 
+<<<<<<< HEAD:src/model/Users.java
 public class Users extends UserWithDiscount {
+=======
+public class User {
+>>>>>>> f95cfe6959cd746d55c2fd1bf050c99edf8a986c:src/model/User.java
 
     private String Nombre;
     private String Apellidos;
@@ -11,10 +15,10 @@ public class Users extends UserWithDiscount {
     private String Cuenta_Banco;
     private ArrayList Compras;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(String Nombre, String Apellidos, String Phone, String Cuenta_Banco, ArrayList Compras) {
+    public User(String Nombre, String Apellidos, String Phone, String Cuenta_Banco, ArrayList Compras) {
         this.Nombre = Nombre;
         this.Apellidos = Apellidos;
         this.Phone = Phone;
@@ -65,7 +69,7 @@ public class Users extends UserWithDiscount {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Users{");
+        sb.append("User{");
         sb.append("Nombre=").append(Nombre);
         sb.append(", Apellidos=").append(Apellidos);
         sb.append(", Phone=").append(Phone);
