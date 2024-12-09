@@ -3,11 +3,7 @@ package model;
 import java.util.ArrayList;
 import model.*;
 
-<<<<<<< HEAD:src/model/Users.java
 public class Users extends UserWithDiscount {
-=======
-public class User {
->>>>>>> f95cfe6959cd746d55c2fd1bf050c99edf8a986c:src/model/User.java
 
     private String Nombre;
     private String Apellidos;
