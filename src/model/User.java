@@ -3,75 +3,88 @@ package model;
 import java.util.ArrayList;
 import model.*;
 
-public class Users extends UserWithDiscount {
+public class User {
 
-    private String Nombre;
-    private String Apellidos;
-    private String Phone;
-    private String Cuenta_Banco;
-    private ArrayList Compras;
+    private String nombre;
+    private String apellidos;
+    private String phone;
+    private String email;
+    private String password;
+    private ArrayList compras;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public ArrayList getCompras() {
+        return compras;
+    }
+
+    public void setCompras(ArrayList compras) {
+        this.compras = compras;
+    }
 
     public User() {
     }
 
-    public User(String Nombre, String Apellidos, String Phone, String Cuenta_Banco, ArrayList Compras) {
-        this.Nombre = Nombre;
-        this.Apellidos = Apellidos;
-        this.Phone = Phone;
-        this.Cuenta_Banco = Cuenta_Banco;
-        this.Compras = Compras;
-    }
-
-    public String getNombre() {
-        return Nombre;
-    }
-
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
-    }
-
-    public String getApellidos() {
-        return Apellidos;
-    }
-
-    public void setApellidos(String Apellidos) {
-        this.Apellidos = Apellidos;
-    }
-
-    public String getPhone() {
-        return Phone;
-    }
-
-    public void setPhone(String Phone) {
-        this.Phone = Phone;
-    }
-
-    public String getCuenta_Banco() {
-        return Cuenta_Banco;
-    }
-
-    public void setCuenta_Banco(String Cuenta_Banco) {
-        this.Cuenta_Banco = Cuenta_Banco;
-    }
-
-    public ArrayList getCompras() {
-        return Compras;
-    }
-
-    public void setCompras(ArrayList Compras) {
-        this.Compras = Compras;
+    public User(String nombre, String apellidos, String phone, String email, String password, ArrayList compras) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.compras = compras;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("User{");
-        sb.append("Nombre=").append(Nombre);
-        sb.append(", Apellidos=").append(Apellidos);
-        sb.append(", Phone=").append(Phone);
-        sb.append(", Cuenta_Banco=").append(Cuenta_Banco);
-        sb.append(", Compras=").append(Compras);
+        sb.append("nombre=").append(nombre);
+        sb.append(", apellidos=").append(apellidos);
+        sb.append(", phone=").append(phone);
+        sb.append(", email=").append(email);
+        sb.append(", password=").append(password);
+        sb.append(", compras=").append(compras);
         sb.append('}');
         return sb.toString();
     }
+
+    
 }
