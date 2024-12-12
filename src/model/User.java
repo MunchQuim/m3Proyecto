@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import model.*;
+import model.Asiento;
 
 public class User {
 
@@ -10,7 +10,7 @@ public class User {
     private String phone;
     private String email;
     private String password;
-    private ArrayList compras;
+    private ArrayList<Asiento> compras;
 
     public String getNombre() {
         return nombre;
@@ -63,13 +63,12 @@ public class User {
     public User() {
     }
 
-    public User(String nombre, String apellidos, String phone, String email, String password, ArrayList compras) {
+    public User(String nombre, String apellidos, String phone, String email, String password) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.phone = phone;
         this.email = email;
         this.password = password;
-        this.compras = compras;
     }
 
     @Override

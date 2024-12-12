@@ -12,16 +12,22 @@ public class Room {
 
     private String numSala;
     private int numAsientos;
-    private boolean[] asientos;
     private int numAsientosVip;
-    private boolean[] asientosVip;
+    private int numAsientosAdaptados;
 
-    public Room(String numSala, int asientos, int asientosVip) {
+    public Room(String numSala, int asientos, int asientosVip, int asientosAdaptados) {
         this.numSala = numSala;
         this.numAsientos = asientos;
         this.numAsientosVip = asientosVip;
-        this.asientos = new boolean[asientos];
-        this.asientosVip = new boolean[asientos];
+        this.numAsientosAdaptados = asientosAdaptados;
+    }
+
+    public int getNumAsientosAdaptados() {
+        return numAsientosAdaptados;
+    }
+
+    public void setNumAsientosAdaptados(int numAsientosAdaptados) {
+        this.numAsientosAdaptados = numAsientosAdaptados;
     }
 
     public String getNumSala() {
@@ -48,62 +54,20 @@ public class Room {
         this.numAsientosVip = numAsientosVip;
     }
 
-    public void setAsiento(int index, boolean value) {
-        this.asientos[index] = value;
-    }
-
-    public void setAsientoVip(int index, boolean value) {
-        this.asientosVip[index] = value;
-    }
-
-    public boolean getAsiento(int index) {
-        return this.asientos[index];
-    }
-
-    public boolean getAsientoVip(int index) {
-        return this.asientosVip[index];
-    }
-
     @Override
     public String toString() {
-        return "Room{" + "numSala=" + numSala + ", asientos=" + numAsientos + "\n" + summaryAsientos() +", asientosVip=" + numAsientosVip + "\n" + summaryAsientosVip()+'}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Room{");
+        sb.append("numSala=").append(numSala);
+        sb.append(", numAsientos=").append(numAsientos);
+        sb.append(", numAsientosVip=").append(numAsientosVip);
+        sb.append(", numAsientosAdaptados=").append(numAsientosAdaptados);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public String summaryAsientos() {
-        String text = "";
-        String variable;
-        int index = 0;
-        for (boolean value : asientos) {
-            if (value) {
-                variable = "X";
-            } else {
-                variable = " ";
-            }
-            text += "[" + variable + "]";
-            index++;
-            if (index % 10 == 0) {
-                text += "\n";
-            }
-        }
-        return text;
-    }
-    public String summaryAsientosVip() {
-        String text = "";
-        String variable;
-        int index = 0;
-        for (boolean value : asientosVip) {
-            if (value) {
-                variable = "X";
-            } else {
-                variable = " ";
-            }
-            text += "[" + variable + "]";
-            index++;
-            if (index % 10 == 0) {
-                text += "\n";
-            }
-        }
-        return text;
-    }
 
+ 
+
+   
 }
