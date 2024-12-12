@@ -1,5 +1,8 @@
 package view.console;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import model.*;
@@ -16,18 +19,18 @@ public class Main {
         String opcionStr;
 
         do {
-            System.out.println("1- Dar de alta Usuarios ");
-            System.out.println("2- Anadir una Pelicula");
+            System.out.println("1- Dar de alta Usuarios ");//hecho// verificacion no repetir correos falta por hacer
+            System.out.println("2- Anadir una Pelicula");//hecho
             System.out.println("3- Crear Sala");
             System.out.println("4- Crear Sesion");
-            System.out.println("5- Ver todas las Peliculas");
+            System.out.println("5- Ver todas las Peliculas");//hecho
             System.out.println("6- Ver todas las Sesiones");
             System.out.println("7- Ver todas las Salas");
-            System.out.println("8- Comprar Pelicula");
-            System.out.println("9- Ver Usuarios");
+            System.out.println("8- Comprar Pelicula");// iniciar sesion con mail y contraseña
+            System.out.println("9- Ver Usuarios");//hecho
             System.out.println("10- Ver Compras por Usuario");
-            System.out.println("11- Borrar Usuario");
-            System.out.println("0- Salir");
+            System.out.println("11- Borrar Usuario");//hecho
+            System.out.println("0- Salir");//hecho
             opcionStr = keyboard.next();
 
             switch (opcionStr) {
@@ -67,7 +70,7 @@ public class Main {
         } while (!opcionStr.equals("0"));
     }
 
-    public static String validarCampoNoVacio(String campo) {
+    public static String validarStringNoVacio(String campo) {
         String input;
         do {
             System.out.println("Ingrese " + campo + ":");
@@ -99,6 +102,7 @@ public class Main {
     }
 
     public static String validarEmail() {
+        //modificar
         String email;
         boolean isValid;
         do {
@@ -114,11 +118,11 @@ public class Main {
     }
 
     public static void darAltaUsuarios() {
-        String nombre = validarCampoNoVacio("nombre");
-        String apellidos = validarCampoNoVacio("apellidos");
+        String nombre = validarStringNoVacio("nombre");
+        String apellidos = validarStringNoVacio("apellidos");
         String phone = validarTelefono();
         String email = validarEmail();
-        String password = validarCampoNoVacio("contrasena");
+        String password = validarStringNoVacio("contrasena");
 
         User user = new User(nombre, apellidos, phone, email, password);
         users.add(user);
@@ -127,17 +131,15 @@ public class Main {
 
     public static int validarDuracion() {
         int duration = -1;
-
+        String strDuration;
         while (duration <= 0) {
+
             System.out.println("Ingrese la duracion de la pelicula: ");
-            if (keyboard.hasNextInt()) {
-                duration = keyboard.nextInt();
-                if (duration <= 0) {
-                    System.out.println("La duracion debe ser un numero entero positivo. Intentelo de nuevo.");
-                }
+            strDuration = keyboard.next();
+            if (isNumericPositive(strDuration)) {
+                duration = Integer.parseInt(strDuration);
             } else {
                 System.out.println("Entrada invalida. Por favor, ingrese un numero entero positivo.");
-                keyboard.next();
             }
         }
         return duration;
@@ -145,7 +147,7 @@ public class Main {
 
     public static void anadirPelicula() {
 
-        String title = validarCampoNoVacio("Titulo Pelicula");
+        String title = validarStringNoVacio("Titulo Pelicula");
         int duration = validarDuracion();
 
         Film film = new Film(title, duration);
@@ -195,6 +197,7 @@ public class Main {
         }
     }
     
+<<<<<<< HEAD
     public static void crearSala(){
         
     }
@@ -206,4 +209,52 @@ public class Main {
     
     }
     
+=======
+    public static void crearSesion(){
+        Film pelicula = validarPelicula();
+        String apellidos = validarStringNoVacio("apellidos");
+        String phone = validarTelefono();
+        String email = validarEmail();
+        String password = validarStringNoVacio("contrasena");
+
+        User user = new User(nombre, apellidos, phone, email, password);
+        users.add(user);
+        System.out.println("Usuario agregado exitosamente!");
+    }
+
+    public static boolean isDate(String pDate) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate myDate = LocalDate.parse(pDate, format);
+            return myDate.isAfter(LocalDate.now());
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+
+    }
+
+    public static boolean isNumericPositive(String str) {
+        int num;
+        try {
+            num = Integer.parseInt(str);
+
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+
+        return num > 0;
+    }
+
+    public static boolean isNumericBetween(int a, int b, String str) {
+        int num;
+        try {
+            num = Integer.parseInt(str);
+
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+
+        return (num >= a && num <= b);
+    }
+>>>>>>> b5c10c434b64fc1b5184774c4205c6d11d5ddbca
 }
