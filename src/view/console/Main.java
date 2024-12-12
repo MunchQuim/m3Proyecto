@@ -1,6 +1,7 @@
 package view.console;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Main {
     static Scanner keyboard = new Scanner(System.in);
     static ArrayList<User> users = new ArrayList<>();
     static ArrayList<Film> films = new ArrayList<>();
+    static ArrayList<Session> sessions = new ArrayList<>();
 
     public static void main(String[] args) {
         keyboard.useDelimiter("\n");
@@ -195,19 +197,56 @@ public class Main {
             System.out.println("Usuario no encontrado.");
         }
     }
-    
-    public static void crearSesion(){
-        Film pelicula = validarPelicula();
-        String apellidos = validarStringNoVacio("apellidos");
-        String phone = validarTelefono();
-        String email = validarEmail();
-        String password = validarStringNoVacio("contrasena");
 
-        User user = new User(nombre, apellidos, phone, email, password);
-        users.add(user);
+    public static void crearSesion() {
+        Film pelicula = validarPelicula();
+        LocalTime horaInicio = validarLocalTime();
+        Room sala = validarSala();//continuar
+        
+        Session sesion = new Session(pelicula, horaInicio, sala);
+        sessions.add(sesion);
         System.out.println("Usuario agregado exitosamente!");
     }
 
+    public static Film validarPelicula() {
+        String input;
+        Film pelicula = null;
+        do {
+            verTodasPeliculas();
+            System.out.println("Ingrese el nombre de la pelicula:");
+            input = keyboard.next();
+            if (input == null || input.trim().isEmpty()) {
+                System.out.println("El campo no puede estar vacio. Por favor, intentalo de nuevo.");
+            } else {
+                for (Film film : films) {
+                    if(film.getTitle().equals(input)){
+                       pelicula = film; 
+                    }
+                }if(pelicula == null){
+                    System.out.println("Inserte una pelicula correcta");
+                }
+            }
+        } while (pelicula == null);
+        
+        return pelicula;
+    }
+    public static LocalTime validarLocalTime(){
+        String strHora = null;
+        String strMinutos = null;
+        System.out.println("Voy a necesitar la hora y luego los minutos del localTime");
+        do {            
+            System.out.println("Cual es la hora");
+            strHora = keyboard.next();
+        } while (!isNumericBetween(0,23, strHora));
+        do {            
+            System.out.println("cuales son los minutos");
+            strMinutos = keyboard.next();
+        } while (!isNumericBetween(0,59, strMinutos));
+        int hora = Integer.parseInt(strHora);
+        int minuto = Integer.parseInt(strMinutos);
+        LocalTime localtime = LocalTime.of(hora,minuto);
+        return localtime;
+    }
     public static boolean isDate(String pDate) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
