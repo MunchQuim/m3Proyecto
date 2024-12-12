@@ -9,6 +9,7 @@ public class Main {
     static Scanner keyboard = new Scanner(System.in);
     static ArrayList<User> users = new ArrayList<>();
     static ArrayList<Film> films = new ArrayList<>();
+    static ArrayList<Room> rooms = new ArrayList<>();
 
     public static void main(String[] args) {
         keyboard.useDelimiter("\n");
@@ -119,7 +120,7 @@ public class Main {
         String email = validarEmail();
         String password = validarCampoNoVacio("contrasena");
 
-        User user = new User(nombre, apellidos, phone, email, password, new ArrayList<>());
+        User user = new User(nombre, apellidos, phone, email, password);
         users.add(user);
         System.out.println("Usuario agregado exitosamente!");
     }
@@ -193,4 +194,16 @@ public class Main {
             System.out.println("Usuario no encontrado.");
         }
     }
+    
+    public static void crearSala(){
+        
+    }
+    
+
+   
+    
+    public static void verTodasSalas(){
+    
+    }
+    
 }
