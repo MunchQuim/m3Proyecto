@@ -21,11 +21,11 @@ public class Main {
         do {
             System.out.println("1- Dar de alta Usuarios ");//hecho// verificacion no repetir correos falta por hacer
             System.out.println("2- Anadir una Pelicula");//hecho
-            System.out.println("3- Crear Sala");
+            System.out.println("3- Crear Sala"); //hecho
             System.out.println("4- Crear Sesion");
             System.out.println("5- Ver todas las Peliculas");//hecho
             System.out.println("6- Ver todas las Sesiones");
-            System.out.println("7- Ver todas las Salas");
+            System.out.println("7- Ver todas las Salas"); //hecho
             System.out.println("8- Comprar Pelicula");// iniciar sesion con mail y contraseña
             System.out.println("9- Ver Usuarios");//hecho
             System.out.println("10- Ver Compras por Usuario");
@@ -44,6 +44,7 @@ public class Main {
                     anadirPelicula();
                     break;
                 case "3":
+                    crearSala();
                     break;
                 case "4":
                     break;
@@ -53,6 +54,7 @@ public class Main {
                 case "6":
                     break;
                 case "7":
+                    verTodasSalas();
                     break;
                 case "8":
                     break;
@@ -196,30 +198,63 @@ public class Main {
             System.out.println("Usuario no encontrado.");
         }
     }
-    
-<<<<<<< HEAD
-    public static void crearSala(){
-        
+
+    public static int validarAsientos(String tipoAsiento) {
+        int numAsientos = 0;
+        boolean isValid = false;
+        String strAsientos;
+
+        do {
+            System.out.println("Ingrese el numero de asientos " + tipoAsiento + " (entre 1 y 50):");
+            strAsientos = keyboard.next();
+            if (isNumericBetween(1, 50, strAsientos)) {
+                numAsientos = Integer.parseInt(strAsientos);
+                isValid = true;
+            } else {
+                System.out.println("Numero de asientos " + tipoAsiento + " no valido. Introduce un numero entre 5 y 50:");
+            }
+        } while (!isValid);
+
+        return numAsientos;
+    }
+
+    public static int[] validarTotalAsientos() {
+        int numAsientos, numAsientosVip, numAsientosAdaptados;
+        boolean isValid = false;
+
+        do {
+            numAsientos = validarAsientos("normales");
+            numAsientosVip = validarAsientos("VIP");
+            numAsientosAdaptados = validarAsientos("adaptados");
+
+            if (numAsientos + numAsientosVip + numAsientosAdaptados <= 50) {
+                isValid = true;
+            } else {
+                System.out.println("El total de asientos no puede exceder 50. Por favor, intentalo de nuevo.");
+            }
+        } while (!isValid);
+
+        return new int[]{numAsientos, numAsientosVip, numAsientosAdaptados};
+    }
+
+    public static void crearSala() {
+        String numSala = validarStringNoVacio("Numero de Sala");
+        int[] asientos = validarTotalAsientos();
+
+        Room room = new Room(numSala, asientos[0], asientos[1], asientos[2]);
+        rooms.add(room);
+        System.out.println("Sala creada exitosamente!");
     }
     
-
-   
-    
-    public static void verTodasSalas(){
-    
-    }
-    
-=======
-    public static void crearSesion(){
-        Film pelicula = validarPelicula();
-        String apellidos = validarStringNoVacio("apellidos");
-        String phone = validarTelefono();
-        String email = validarEmail();
-        String password = validarStringNoVacio("contrasena");
-
-        User user = new User(nombre, apellidos, phone, email, password);
-        users.add(user);
-        System.out.println("Usuario agregado exitosamente!");
+    public static void verTodasSalas() {
+        if (rooms.isEmpty()) {
+            System.out.println("No hay salas registradas.");
+        } else {
+            System.out.println("Lista de Salas:");
+            for (Room room : rooms) {
+                System.out.println(room);
+            }
+        }
     }
 
     public static boolean isDate(String pDate) {
@@ -256,5 +291,4 @@ public class Main {
 
         return (num >= a && num <= b);
     }
->>>>>>> b5c10c434b64fc1b5184774c4205c6d11d5ddbca
 }
