@@ -104,19 +104,27 @@ public class Main {
     }
 
     public static String validarEmail() {
-        //modificar
         String email;
         boolean isValid;
         do {
             System.out.println("Ingrese email:");
             email = keyboard.next();
-            isValid = email.contains("@") && (email.contains(".com") || email.contains(".es"));
+            isValid = email.contains("@") && (email.contains(".com") || email.contains(".es")) && !isEmailUsed(email);
             if (!isValid) {
-                System.out.println("Correo no valido. Introduce un correo electronico valido:");
+                System.out.println("Correo no valido o ya en uso. Introduce un correo electronico valido:");
             }
         } while (!isValid);
 
         return email.trim();
+    }
+
+    public static boolean isEmailUsed(String email) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void darAltaUsuarios() {
@@ -199,53 +207,59 @@ public class Main {
         }
     }
 
-    public static int validarAsientos(String tipoAsiento) {
-        int numAsientos = 0;
-        boolean isValid = false;
+    public static int validarNumeroAsientos(String tipoAsiento, int maxAsientos) {
+        int numAsientos = -1;
         String strAsientos;
-
-        do {
-            System.out.println("Ingrese el numero de asientos " + tipoAsiento + " (entre 1 y 50):");
+        while (numAsientos < 0 || numAsientos > maxAsientos) {
+            //solicitar al usuario que ingrese el num de asientos
+            System.out.println("Ingrese " + tipoAsiento + " (Máximo " + maxAsientos + "): ");
             strAsientos = keyboard.next();
-            if (isNumericBetween(1, 50, strAsientos)) {
+            // verificar si la entrada es un numero positivo
+            if (isNumericPositive(strAsientos)) {
                 numAsientos = Integer.parseInt(strAsientos);
-                isValid = true;
+                //validar que el numero de asientos no exceda el maximo permitido
+                if (numAsientos > maxAsientos) {
+                    System.out.println("Entrada inválida. El número de asientos no puede exceder de " + maxAsientos + ".");
+                }
             } else {
-                System.out.println("Numero de asientos " + tipoAsiento + " no valido. Introduce un numero entre 5 y 50:");
+                System.out.println("Entrada inválida. Por favor, ingrese un número entero positivo.");
             }
-        } while (!isValid);
-
+        }
         return numAsientos;
-    }
-
-    public static int[] validarTotalAsientos() {
-        int numAsientos, numAsientosVip, numAsientosAdaptados;
-        boolean isValid = false;
-
-        do {
-            numAsientos = validarAsientos("normales");
-            numAsientosVip = validarAsientos("VIP");
-            numAsientosAdaptados = validarAsientos("adaptados");
-
-            if (numAsientos + numAsientosVip + numAsientosAdaptados <= 50) {
-                isValid = true;
-            } else {
-                System.out.println("El total de asientos no puede exceder 50. Por favor, intentalo de nuevo.");
-            }
-        } while (!isValid);
-
-        return new int[]{numAsientos, numAsientosVip, numAsientosAdaptados};
     }
 
     public static void crearSala() {
         String numSala = validarStringNoVacio("Numero de Sala");
-        int[] asientos = validarTotalAsientos();
+        if (isRoomNumberUsed(numSala)) {
+            System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
+            return;
+        }
+        int totalAsientos = 50;
+        int numAsientos = validarNumeroAsientos("Numero de Asientos Normales", totalAsientos);
+        totalAsientos -= numAsientos;
+        int numAsientosVip = validarNumeroAsientos("Numero de Asientos VIP", totalAsientos);
+        totalAsientos -= numAsientosVip;
+        int numAsientosAdaptados = validarNumeroAsientos("Numero de Asientos Adaptados", totalAsientos);
 
-        Room room = new Room(numSala, asientos[0], asientos[1], asientos[2]);
-        rooms.add(room);
-        System.out.println("Sala creada exitosamente!");
+        if (numAsientos + numAsientosVip + numAsientosAdaptados > 50) {
+            System.out.println("Error: El total de asientos no puede exceder de 50.");
+            System.out.println("Solo puedes agregar " + (50 - numAsientos - numAsientosVip) + " asientos adaptados.");
+        } else {
+            Room room = new Room(numSala, numAsientos, numAsientosVip, numAsientosAdaptados);
+            rooms.add(room);
+            System.out.println("Sala creada exitosamente!");
+        }
     }
-    
+
+    public static boolean isRoomNumberUsed(String numSala) {
+        for (Room room : rooms) {
+            if (room.getNumSala().equals(numSala)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void verTodasSalas() {
         if (rooms.isEmpty()) {
             System.out.println("No hay salas registradas.");
