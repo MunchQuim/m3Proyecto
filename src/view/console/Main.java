@@ -19,7 +19,7 @@ public class Main {
         String opcionStr;
 
         do {
-            System.out.println("1- Dar de alta Usuarios ");//hecho// verificacion no repetir correos falta por hacer
+            System.out.println("1- Dar de alta Usuarios ");//hecho
             System.out.println("2- Anadir una Pelicula");//hecho
             System.out.println("3- Crear Sala"); //hecho
             System.out.println("4- Crear Sesion");
@@ -212,17 +212,17 @@ public class Main {
         String strAsientos;
         while (numAsientos < 0 || numAsientos > maxAsientos) {
             //solicitar al usuario que ingrese el num de asientos
-            System.out.println("Ingrese " + tipoAsiento + " (Máximo " + maxAsientos + "): ");
+            System.out.println("Ingrese " + tipoAsiento + " (Maximo " + maxAsientos + "): ");
             strAsientos = keyboard.next();
             // verificar si la entrada es un numero positivo
             if (isNumericPositive(strAsientos)) {
                 numAsientos = Integer.parseInt(strAsientos);
                 //validar que el numero de asientos no exceda el maximo permitido
                 if (numAsientos > maxAsientos) {
-                    System.out.println("Entrada inválida. El número de asientos no puede exceder de " + maxAsientos + ".");
+                    System.out.println("Entrada invalida. El número de asientos no puede exceder de " + maxAsientos + ".");
                 }
             } else {
-                System.out.println("Entrada inválida. Por favor, ingrese un número entero positivo.");
+                System.out.println("Entrada invalida. Por favor, ingrese un número entero positivo.");
             }
         }
         return numAsientos;
