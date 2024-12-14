@@ -3,16 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
 import model.TipoAsientosEnum;
 import model.Room;
+
 /**
  *
  * @author joaquimpinsot
  */
 public final class Asiento {
+
     private TipoAsientosEnum tipoAsiento;
     private int index;
-    private int cantidad;
     private boolean estaOcupado;
     private double precio;
     private Room sala;
@@ -31,14 +33,6 @@ public final class Asiento {
 
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public boolean isEstaOcupado() {
@@ -65,29 +59,51 @@ public final class Asiento {
         this.sala = sala;
     }
 
-    public Asiento(TipoAsientosEnum tipoAsiento, int index, int cantidad, boolean estaOcupado, Room sala) {
+    public Asiento(TipoAsientosEnum tipoAsiento, int index, boolean estaOcupado, Room sala) {
         this.tipoAsiento = tipoAsiento;
         this.index = index;
-        this.cantidad = cantidad;
         this.estaOcupado = estaOcupado;
         this.sala = sala;
         asignarPrecio();
     }
-    
-    public void asignarPrecio(){
+
+    public void asignarPrecio() {
         switch (this.tipoAsiento) {
             case Adaptado:
                 this.precio = 5;
                 break;
             case Normal:
-                 this.precio = 10;
+                this.precio = 10;
                 break;
             case Vip:
-                 this.precio = 15;
+                this.precio = 15;
                 break;
             default:
                 throw new AssertionError();
         }
     }
-    
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Asiento{");
+        sb.append("tipoAsiento=").append(tipoAsiento);
+        sb.append(", index=").append(index);
+        sb.append(", estaOcupado=").append(estaOcupado);
+        sb.append(", precio=").append(precio);
+        sb.append(", sala=").append(sala);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public String getTicket() {
+        StringBuilder ticket = new StringBuilder();
+        ticket.append("\nsala : ").append(this.sala.getNumSala());
+        ticket.append("\ntipo : ").append(this.tipoAsiento);
+        ticket.append("\nnumero : ").append(this.index);
+        ticket.append("\nprecio : ").append(this.precio);
+        ticket.append("\n-------------------").append(this.precio);
+        return ticket.toString();
+    }
+
 }

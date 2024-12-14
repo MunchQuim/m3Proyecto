@@ -85,5 +85,14 @@ public class User {
         return sb.toString();
     }
 
-    
+    public String getInfoTickets() {
+        StringBuilder infoTickets = new StringBuilder();
+        infoTickets.append("\nuser : ").append(nombre).append(" ").append(apellidos);
+        for (Asiento compra : compras) {
+            infoTickets.append(compra.getTicket());
+        }
+        infoTickets.append("-------------------\n");
+        return infoTickets.toString();
+    }
+
 }

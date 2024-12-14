@@ -21,16 +21,16 @@ public class Main {
         String opcionStr;
 
         do {
-            System.out.println("1- Dar de alta Usuarios ");//hecho
+            System.out.println("1- Dar de alta Usuarios ");//hecho // arreglar
             System.out.println("2- Anadir una Pelicula");//hecho
             System.out.println("3- Crear Sala"); //hecho
-            System.out.println("4- Crear Sesion");
+            System.out.println("4- Crear Sesion"); // hecho
             System.out.println("5- Ver todas las Peliculas");//hecho
-            System.out.println("6- Ver todas las Sesiones");
+            System.out.println("6- Ver todas las Sesiones");//hecho
             System.out.println("7- Ver todas las Salas"); //hecho
-            System.out.println("8- Comprar Pelicula");// iniciar sesion con mail y contraseña
+            System.out.println("8- Comprar Pelicula");// iniciar sesion con mail y contraseña // que al buscar un dia se creen la sesionDiaria para ese dia y los asientos para la sesionDiaria.-Quim
             System.out.println("9- Ver Usuarios");//hecho
-            System.out.println("10- Ver Compras por Usuario");
+            System.out.println("10- Ver Compras por Usuario");//hecho
             System.out.println("11- Borrar Usuario");//hecho
             System.out.println("0- Salir");//hecho
             opcionStr = keyboard.next();
@@ -55,6 +55,7 @@ public class Main {
                     break;
                 case "6":
                     break;
+                    verTodasSesiones();
                 case "7":
                     verTodasSalas();
                     break;
@@ -64,6 +65,7 @@ public class Main {
                     verUsuarios();
                     break;
                 case "10":
+                    verComprasPorUsuario();
                     break;
                 case "11":
                     borrarUsuario();
@@ -213,35 +215,42 @@ public class Main {
         Film pelicula = validarPelicula();
         LocalTime horaInicio = validarLocalTime();
         Room sala = validarSala();//continuar
-        
+
         Session sesion = new Session(pelicula, horaInicio, sala);
         sessions.add(sesion);
-        System.out.println("Usuario agregado exitosamente!");
-    public static int validarAsientos(String tipoAsiento) {
-        int numAsientos = 0;
-        boolean isValid = false;
-    public static int validarNumeroAsientos(String tipoAsiento, int maxAsientos) {
-        int numAsientos = -1;
-        String strAsientos;
-        while (numAsientos < 0 || numAsientos > maxAsientos) {
-            //solicitar al usuario que ingrese el num de asientos
-            System.out.println("Ingrese " + tipoAsiento + " (Maximo " + maxAsientos + "): ");
-            strAsientos = keyboard.next();
-            // verificar si la entrada es un numero positivo
-            if (isNumericPositive(strAsientos)) {
-                numAsientos = Integer.parseInt(strAsientos);
-                //validar que el numero de asientos no exceda el maximo permitido
-                if (numAsientos > maxAsientos) {
-                    System.out.println("Entrada invalida. El número de asientos no puede exceder de " + maxAsientos + ".");
-                }
-            } else {
-                System.out.println("Entrada invalida. Por favor, ingrese un número entero positivo.");
-            }
+        System.out.println("Sesion agregada exitosamente!");
+    }
+    
+    public static void verTodasSesiones(){
+        for(Session sesion : sessions){
+            sesion.toString();
         }
-        return numAsientos;
     }
 
-    public static void crearSala() {
+//    public static int validarAsientos(String tipoAsiento) {
+//        int numAsientos = 0;
+//        boolean isValid = false;
+//    public static int validarNumeroAsientos(String tipoAsiento, int maxAsientos) {
+//        int numAsientos = -1;
+//        String strAsientos;
+//        while (numAsientos < 0 || numAsientos > maxAsientos) {
+//            //solicitar al usuario que ingrese el num de asientos
+//            System.out.println("Ingrese " + tipoAsiento + " (Maximo " + maxAsientos + "): ");
+//            strAsientos = keyboard.next();
+//            // verificar si la entrada es un numero positivo
+//            if (isNumericPositive(strAsientos)) {
+//                numAsientos = Integer.parseInt(strAsientos);
+//                //validar que el numero de asientos no exceda el maximo permitido
+//                if (numAsientos > maxAsientos) {
+//                    System.out.println("Entrada invalida. El número de asientos no puede exceder de " + maxAsientos + ".");
+//                }
+//            } else {
+//                System.out.println("Entrada invalida. Por favor, ingrese un número entero positivo.");
+//            }
+//        }
+//        return numAsientos;
+//    }
+    public static void crearSala() { // arreglar
         String numSala = validarStringNoVacio("Numero de Sala");
         if (isRoomNumberUsed(numSala)) {
             System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
@@ -261,6 +270,11 @@ public class Main {
             Room room = new Room(numSala, numAsientos, numAsientosVip, numAsientosAdaptados);
             rooms.add(room);
             System.out.println("Sala creada exitosamente!");
+        }
+    }
+    public static void verComprasPorUsuario(){
+        for(User user : users){
+            user.getInfoTickets();
         }
     }
 
@@ -284,6 +298,23 @@ public class Main {
         }
     }
 
+    public static Room validarSala() { //devuelve una sala validada
+        System.out.println("Estas son todas nuestras salas");
+        verTodasSalas();
+        String numSala;
+        Room sala = null; 
+        do {
+            System.out.println("Que numero de sala vas a usar");
+            numSala = keyboard.next();
+            for (Room room : rooms) {
+              if(room.getNumSala().equals(numSala)){
+                 sala = room; 
+              }
+            }
+        } while (sala== null);
+        return sala;
+    }
+
     public static Film validarPelicula() {
         String input;
         Film pelicula = null;
@@ -295,34 +326,37 @@ public class Main {
                 System.out.println("El campo no puede estar vacio. Por favor, intentalo de nuevo.");
             } else {
                 for (Film film : films) {
-                    if(film.getTitle().equals(input)){
-                       pelicula = film; 
+                    if (film.getTitle().equals(input)) {
+                        pelicula = film;
                     }
-                }if(pelicula == null){
+                }
+                if (pelicula == null) {
                     System.out.println("Inserte una pelicula correcta");
                 }
             }
         } while (pelicula == null);
-        
+
         return pelicula;
     }
-    public static LocalTime validarLocalTime(){
+
+    public static LocalTime validarLocalTime() {
         String strHora = null;
         String strMinutos = null;
         System.out.println("Voy a necesitar la hora y luego los minutos del localTime");
-        do {            
+        do {
             System.out.println("Cual es la hora");
             strHora = keyboard.next();
-        } while (!isNumericBetween(0,23, strHora));
-        do {            
+        } while (!isNumericBetween(0, 23, strHora));
+        do {
             System.out.println("cuales son los minutos");
             strMinutos = keyboard.next();
-        } while (!isNumericBetween(0,59, strMinutos));
+        } while (!isNumericBetween(0, 59, strMinutos));
         int hora = Integer.parseInt(strHora);
         int minuto = Integer.parseInt(strMinutos);
-        LocalTime localtime = LocalTime.of(hora,minuto);
+        LocalTime localtime = LocalTime.of(hora, minuto);
         return localtime;
     }
+
     public static boolean isDate(String pDate) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
