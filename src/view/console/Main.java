@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.*;
 
 public class Main {
@@ -21,7 +23,7 @@ public class Main {
         String opcionStr;
 
         do {
-            System.out.println("1- Dar de alta Usuarios ");//hecho // arreglar
+            System.out.println("1- Dar de alta Usuarios ");//hecho
             System.out.println("2- Anadir una Pelicula");//hecho
             System.out.println("3- Crear Sala"); //hecho
             System.out.println("4- Crear Sesion"); // hecho
@@ -113,7 +115,7 @@ public class Main {
         do {
             System.out.println("Ingrese email:");
             email = keyboard.next();
-            isValid = email.contains("@") && (email.contains(".com") || email.contains(".es")) && !isEmailUsed(email);
+            isValid = esCorreo(email) && !isEmailUsed(email); 
             if (!isValid) {
                 System.out.println("Correo no valido o ya en uso. Introduce un correo electronico valido:");
             }
@@ -121,7 +123,19 @@ public class Main {
 
         return email.trim();
     }
-
+     public static boolean esCorreo(String correo) {
+        // Expresión regular para validar un correo electrónico
+        String expresionRegular = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        
+        // Compilamos la expresión regular
+        Pattern pattern = Pattern.compile(expresionRegular);
+        
+        // Verificamos si el correo cumple con la expresión regular
+        Matcher matcher = pattern.matcher(correo);
+        
+        // Retornamos el resultado de la validación
+        return matcher.matches();
+    }
     public static boolean isEmailUsed(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
