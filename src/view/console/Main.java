@@ -16,7 +16,9 @@ public class Main {
     static ArrayList<User> users = new ArrayList<>();
     static ArrayList<Film> films = new ArrayList<>();
     static ArrayList<Session> sessions = new ArrayList<>();
+    static ArrayList<SesionDiaria> calendario = new ArrayList<>();
     static ArrayList<Room> rooms = new ArrayList<>();
+    static User sesionUsuario;
 
     public static void main(String[] args) {
         keyboard.useDelimiter("\n");
@@ -51,17 +53,22 @@ public class Main {
                     crearSala();
                     break;
                 case "4":
+                    crearSesion();
                     break;
                 case "5":
                     verTodasPeliculas();
                     break;
                 case "6":
-                    break;
                     verTodasSesiones();
+                    break;
                 case "7":
                     verTodasSalas();
                     break;
                 case "8":
+                    if (iniciarSesion()) {
+                        comprarPelicula();
+                    }
+
                     break;
                 case "9":
                     verUsuarios();
@@ -115,7 +122,7 @@ public class Main {
         do {
             System.out.println("Ingrese email:");
             email = keyboard.next();
-            isValid = esCorreo(email) && !isEmailUsed(email); 
+            isValid = esCorreo(email) && !isEmailUsed(email);
             if (!isValid) {
                 System.out.println("Correo no valido o ya en uso. Introduce un correo electronico valido:");
             }
@@ -123,23 +130,37 @@ public class Main {
 
         return email.trim();
     }
-     public static boolean esCorreo(String correo) {
+
+    public static boolean esCorreo(String correo) {
         // Expresión regular para validar un correo electrónico
         String expresionRegular = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        
+
         // Compilamos la expresión regular
         Pattern pattern = Pattern.compile(expresionRegular);
-        
+
         // Verificamos si el correo cumple con la expresión regular
         Matcher matcher = pattern.matcher(correo);
-        
+
         // Retornamos el resultado de la validación
         return matcher.matches();
     }
+
     public static boolean isEmailUsed(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean login(String email, String password) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                if (user.getPassword().equals(password)) {
+                    sesionUsuario = user;
+                    return true;
+                }
             }
         }
         return false;
@@ -234,9 +255,9 @@ public class Main {
         sessions.add(sesion);
         System.out.println("Sesion agregada exitosamente!");
     }
-    
-    public static void verTodasSesiones(){
-        for(Session sesion : sessions){
+
+    public static void verTodasSesiones() {
+        for (Session sesion : sessions) {
             sesion.toString();
         }
     }
@@ -264,30 +285,8 @@ public class Main {
 //        }
 //        return numAsientos;
 //    }
-    public static void crearSala() { // arreglar
-        String numSala = validarStringNoVacio("Numero de Sala");
-        if (isRoomNumberUsed(numSala)) {
-            System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
-            return;
-        }
-        int totalAsientos = 50;
-        int numAsientos = validarNumeroAsientos("Numero de Asientos Normales", totalAsientos);
-        totalAsientos -= numAsientos;
-        int numAsientosVip = validarNumeroAsientos("Numero de Asientos VIP", totalAsientos);
-        totalAsientos -= numAsientosVip;
-        int numAsientosAdaptados = validarNumeroAsientos("Numero de Asientos Adaptados", totalAsientos);
-
-        if (numAsientos + numAsientosVip + numAsientosAdaptados > 50) {
-            System.out.println("Error: El total de asientos no puede exceder de 50.");
-            System.out.println("Solo puedes agregar " + (50 - numAsientos - numAsientosVip) + " asientos adaptados.");
-        } else {
-            Room room = new Room(numSala, numAsientos, numAsientosVip, numAsientosAdaptados);
-            rooms.add(room);
-            System.out.println("Sala creada exitosamente!");
-        }
-    }
-    public static void verComprasPorUsuario(){
-        for(User user : users){
+    public static void verComprasPorUsuario() {
+        for (User user : users) {
             user.getInfoTickets();
         }
     }
@@ -299,6 +298,125 @@ public class Main {
             }
         }
         return false;
+    }
+
+    public static boolean iniciarSesion() {
+        // si hay sesion iniciada
+        //preguntar si quieres comprar una pelicula con el usuario X (email)
+        // si sí, nada, si no, borra la sesion;
+        //si no hay sesion iniciada
+        // con que usuario quieres iniciar sesion (email)
+        // inserte la contraseña
+        // si es correcta, no entra en el bucle y guarda la sesion en sesion usuario
+        // si no es correcta, contraseña no correcta, quiere seguir intentandolo?
+        // si si, continua
+        // si no, sale al menu
+        if (sesionUsuario != null) {
+            String respuesta = "";
+            do {
+                System.out.println("Has iniciado sesion con " + sesionUsuario.getEmail());
+                System.out.println("Quieres comprar una pelicula con este usuario? s/n");
+                respuesta = keyboard.next().toLowerCase();
+            } while (!respuesta.equals("s") && !respuesta.equals("n"));
+
+            if (respuesta.equals("n")) {
+                sesionUsuario = null;
+            }
+        }
+        if (sesionUsuario == null) {
+            String email = "";
+            String respuesta = "";
+            String password = "";
+            boolean buclePedirCorreo = true;
+            boolean buclePedirContrasena = true;
+            do {
+                System.out.println("Vamos a iniciar tu sesion");
+                System.out.println("Necesito tu correo electronico");
+                email = keyboard.next();
+                if (!isEmailUsed(email)) {
+                    do {
+                        System.out.println("Correo desconocido, quieres volverlo a intentar? s/n");
+                        respuesta = keyboard.next().toLowerCase();
+                    } while (!respuesta.equals("s") && !respuesta.equals("n"));
+                    if (respuesta.equals("n")) {
+                        System.out.println("saliendo..");
+                        return false;
+                    }
+                } else {
+                    buclePedirContrasena = false;
+                }
+            } while (buclePedirCorreo);
+            do {
+                System.out.println("Necesito tu contraseña");
+                password = keyboard.next();
+                if (!login(email, password)) {
+                    do {
+                        System.out.println("contraseña erronea, quieres volverlo a intentar? s/n");
+                        respuesta = keyboard.next().toLowerCase();
+                    } while (!respuesta.equals("s") && !respuesta.equals("n"));
+                    if (respuesta.equals("n")) {
+                        System.out.println("saliendo..");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Sesion iniciada como " + sesionUsuario.getEmail());
+                    buclePedirContrasena = false;
+                }
+            } while (buclePedirContrasena);
+        }
+        return true;
+    }
+
+    public static void comprarPelicula() {
+        if (!films.isEmpty()) {
+            verTodasPeliculas();
+            
+            //escoger la pelicula
+            // ver todas las sesiones
+            //para escoger una sesion
+            //y escoger un dia
+            // si la sesion diaria no existe toca crearla con todos sus asientos
+            
+            //escoger un tipo de asiento
+            //visualizar todos los disponibles y comprar uno valido;
+            //
+
+        }
+    }
+    public static void crearSesionDiaria(Session sesion,LocalDate dia){
+        //se crea un arraylist de Asientos llamado asientosNormales;
+        //se crea un arraylist de Asientos llamado asientosVip;
+        //se crea un arraylist de Asientos llamado asientosAdaptados;
+        
+        //a traves de la sesion, vamos a la sala asignada, y la sala asignada, tiene el numero de asientos de cada tipo
+        // se hacen 3 bucles for de la longitud del numero de asientos y por cada uno de ellos crea un asiento, con (enum TipoAsientosEnum,....
+        //....indice del bucle+1, false, el objeto sala asignado a la sesion.) que se añaden al array.
+        // y ya;
+            
+    }
+    public static int validarAsientos(String tipoAsiento) {
+        int numAsientos;
+        do {
+            System.out.println("Numero de asientos " + tipoAsiento + " (Maximo 50): ");
+            numAsientos = keyboard.nextInt();
+        } while (!isNumericBetween(1, 50, String.valueOf(numAsientos)));
+        return numAsientos;
+    }
+    public static void crearSala() {
+        String numSala = validarStringNoVacio("Numero de Sala");
+        if (isRoomNumberUsed(numSala)) {
+            System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
+            return;
+        }
+ 
+        int numAsientos = validarAsientos("normales");
+        int numAsientosVip = validarAsientos("VIP");
+        int numAsientosAdaptados = validarAsientos("adaptados");
+ 
+        Room room = new Room(numSala, numAsientos, numAsientosVip, numAsientosAdaptados);
+        rooms.add(room);
+        System.out.println("Sala creada exitosamente!");
+ 
     }
 
     public static void verTodasSalas() {
@@ -316,16 +434,16 @@ public class Main {
         System.out.println("Estas son todas nuestras salas");
         verTodasSalas();
         String numSala;
-        Room sala = null; 
+        Room sala = null;
         do {
             System.out.println("Que numero de sala vas a usar");
             numSala = keyboard.next();
             for (Room room : rooms) {
-              if(room.getNumSala().equals(numSala)){
-                 sala = room; 
-              }
+                if (room.getNumSala().equals(numSala)) {
+                    sala = room;
+                }
             }
-        } while (sala== null);
+        } while (sala == null);
         return sala;
     }
 
