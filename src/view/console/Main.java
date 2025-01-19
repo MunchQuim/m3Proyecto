@@ -26,7 +26,7 @@ public class Main {
 
         do {
             System.out.println("1- Dar de alta Usuarios ");//hecho
-            System.out.println("2- Anadir una Pelicula");//hecho
+            System.out.println("2- Anadir una Pelicula");//modificar
             System.out.println("3- Crear Sala"); //hecho
             System.out.println("4- Crear Sesion"); // hecho
             System.out.println("5- Ver todas las Peliculas");//hecho
@@ -53,7 +53,7 @@ public class Main {
                     crearSala();
                     break;
                 case "4":
-                    crearSesion();
+                    crearSesion(); //faltaria evitar solapamiento de sesiones
                     break;
                 case "5":
                     verTodasPeliculas();
@@ -64,7 +64,7 @@ public class Main {
                 case "7":
                     verTodasSalas();
                     break;
-                case "8":
+                case "8": //softblock en caso de no haber asientos libres
                     if (iniciarSesion()) {
                         comprarPelicula();
                     }
@@ -74,7 +74,7 @@ public class Main {
                     verUsuarios();
                     break;
                 case "10":
-                    verComprasPorUsuario();
+                    verComprasPorUsuario(); // funciona, pero no se ve bien
                     break;
                 case "11":
                     borrarUsuario();
@@ -154,6 +154,15 @@ public class Main {
         return false;
     }
 
+    public static boolean isTitleUsed(String title) {
+        for (Film film : films) {
+            if (film.getTitle().equals(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean login(String email, String password) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
@@ -185,22 +194,29 @@ public class Main {
 
             System.out.println("Ingrese la duracion de la pelicula: ");
             strDuration = keyboard.next();
-            if (isNumericPositive(strDuration)) {
+            if (isNumericBetween(20, 180, strDuration)) {
                 duration = Integer.parseInt(strDuration);
             } else {
-                System.out.println("Entrada invalida. Por favor, ingrese un numero entero positivo.");
+                System.out.println("Entrada invalida. Por favor, ingrese un numero entre 20 y 180 minutos.");
             }
         }
         return duration;
     }
 
     public static void anadirPelicula() {
+        String title;
+        do {
+            title = validarStringNoVacio("Titulo Pelicula");
+            if (isTitleUsed(title)) {
+                System.out.println("Titulo ya en uso.");
+            }
+        } while (isTitleUsed(title));
 
-        String title = validarStringNoVacio("Titulo Pelicula");
         int duration = validarDuracion();
 
         Film film = new Film(title, duration);
         films.add(film);
+
         System.out.println("Pelicula agregada exitosamente!");
     }
 
@@ -227,39 +243,68 @@ public class Main {
     }
 
     public static void borrarUsuario() {
-        System.out.println("Ingrese el email del usuario a borrar:");
-        String email = keyboard.next();
-        User userToRemove = null;
-
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                userToRemove = user;
-                break;
-            }
-        }
-
-        if (userToRemove != null) {
-            users.remove(userToRemove);
-            System.out.println("Usuario borrado exitosamente!");
+        if (users.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
         } else {
-            System.out.println("Usuario no encontrado.");
+            System.out.println("Ingrese el email del usuario a borrar:");
+            String email = keyboard.next();
+            User userToRemove = null;
+
+            for (User user : users) {
+                if (user.getEmail().equals(email)) {
+                    userToRemove = user;
+
+                    break;
+                }
+            }
+
+            if (userToRemove != null) {
+
+                ArrayList<Asiento> listaCompras = userToRemove.getCompras();
+                if (listaCompras != null) {
+                    for (Asiento compra : listaCompras) {
+                        compra.setEstaOcupado(false);
+                    }
+                }
+                if (userToRemove == sesionUsuario) {
+                    sesionUsuario = null;
+                }
+
+                users.remove(userToRemove);
+
+                System.out.println("Usuario borrado exitosamente!");
+            } else {
+                System.out.println("Usuario no encontrado.");
+            }
         }
     }
 
     public static void crearSesion() {
-        Film pelicula = validarPelicula();
-        LocalTime horaInicio = validarLocalTime();
-        Room sala = validarSala();//continuar
+        if (rooms.isEmpty() || films.isEmpty()) {
+            System.out.println("Faltan salas o peliculas por crear");
+        } else {
+            Film pelicula = validarPelicula();
+            LocalTime horaInicio = validarLocalTime();
+            Room sala = validarSala(); //continuar
 
-        Session sesion = new Session(pelicula, horaInicio, sala);
-        sessions.add(sesion);
-        System.out.println("Sesion agregada exitosamente!");
+            Session sesion = new Session(pelicula, horaInicio, sala);
+            sessions.add(sesion);
+            System.out.println("Sesion agregada exitosamente!");
+        }
+
     }
 
     public static void verTodasSesiones() {
-        for (Session sesion : sessions) {
-            sesion.toString();
+        if (sessions.isEmpty()) {
+            System.out.println("No hay sesiones registradas.");
+        } else {
+            System.out.println("Lista de Sesiones:");
+
+            for (Session sesion : sessions) {
+                System.out.println(sesion.toString());
+            }
         }
+
     }
 
 //    public static int validarAsientos(String tipoAsiento) {
@@ -286,9 +331,15 @@ public class Main {
 //        return numAsientos;
 //    }
     public static void verComprasPorUsuario() {
-        for (User user : users) {
-            user.getInfoTickets();
+        if (users.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+        } else {
+            System.out.println("Compras por usuarios:");
+            for (User user : users) {
+                System.out.println(user.getInfoTickets());
+            }
         }
+
     }
 
     public static boolean isRoomNumberUsed(String numSala) {
@@ -311,112 +362,282 @@ public class Main {
         // si no es correcta, contraseña no correcta, quiere seguir intentandolo?
         // si si, continua
         // si no, sale al menu
-        if (sesionUsuario != null) {
-            String respuesta = "";
-            do {
-                System.out.println("Has iniciado sesion con " + sesionUsuario.getEmail());
-                System.out.println("Quieres comprar una pelicula con este usuario? s/n");
-                respuesta = keyboard.next().toLowerCase();
-            } while (!respuesta.equals("s") && !respuesta.equals("n"));
+        if (users.isEmpty()) {
+            System.out.println("Faltan usuarios por crear");
+            return false;
+        } else {
+            if (sesionUsuario != null) {
+                String respuesta = "";
+                do {
+                    System.out.println("Has iniciado sesion con " + sesionUsuario.getEmail());
+                    System.out.println("Quieres comprar una pelicula con este usuario? s/n");
+                    respuesta = keyboard.next().toLowerCase();
+                } while (!respuesta.equals("s") && !respuesta.equals("n"));
 
-            if (respuesta.equals("n")) {
-                sesionUsuario = null;
+                if (respuesta.equals("n")) {
+                    sesionUsuario = null;
+                }
             }
-        }
-        if (sesionUsuario == null) {
-            String email = "";
-            String respuesta = "";
-            String password = "";
-            boolean buclePedirCorreo = true;
-            boolean buclePedirContrasena = true;
-            do {
-                System.out.println("Vamos a iniciar tu sesion");
-                System.out.println("Necesito tu correo electronico");
-                email = keyboard.next();
-                if (!isEmailUsed(email)) {
-                    do {
-                        System.out.println("Correo desconocido, quieres volverlo a intentar? s/n");
-                        respuesta = keyboard.next().toLowerCase();
-                    } while (!respuesta.equals("s") && !respuesta.equals("n"));
-                    if (respuesta.equals("n")) {
-                        System.out.println("saliendo..");
-                        return false;
+            if (sesionUsuario == null) {
+                String email = "";
+                String respuesta = "";
+                String password = "";
+                boolean buclePedirCorreo = true;
+                boolean buclePedirContrasena = true;
+                do {
+                    System.out.println("Vamos a iniciar tu sesion");
+                    System.out.println("Necesito tu correo electronico");
+                    email = keyboard.next();
+                    if (!isEmailUsed(email)) {
+                        do {
+                            System.out.println("Correo desconocido, quieres volverlo a intentar? s/n");
+                            respuesta = keyboard.next().toLowerCase();
+                        } while (!respuesta.equals("s") && !respuesta.equals("n"));
+                        if (respuesta.equals("n")) {
+                            System.out.println("saliendo..");
+                            return false;
+                        }
+                    } else {
+                        buclePedirCorreo = false;
                     }
-                } else {
-                    buclePedirContrasena = false;
-                }
-            } while (buclePedirCorreo);
-            do {
-                System.out.println("Necesito tu contraseña");
-                password = keyboard.next();
-                if (!login(email, password)) {
-                    do {
-                        System.out.println("contraseña erronea, quieres volverlo a intentar? s/n");
-                        respuesta = keyboard.next().toLowerCase();
-                    } while (!respuesta.equals("s") && !respuesta.equals("n"));
-                    if (respuesta.equals("n")) {
-                        System.out.println("saliendo..");
-                        return false;
+                } while (buclePedirCorreo);
+                do {
+                    System.out.println("Necesito tu contraseña");
+                    password = keyboard.next();
+                    if (!login(email, password)) {
+                        do {
+                            System.out.println("contraseña erronea, quieres volverlo a intentar? s/n");
+                            respuesta = keyboard.next().toLowerCase();
+                        } while (!respuesta.equals("s") && !respuesta.equals("n"));
+                        if (respuesta.equals("n")) {
+                            System.out.println("saliendo..");
+                            return false;
+                        }
+                    } else {
+                        System.out.println("Sesion iniciada como " + sesionUsuario.getEmail());
+                        buclePedirContrasena = false;
                     }
-                } else {
-                    System.out.println("Sesion iniciada como " + sesionUsuario.getEmail());
-                    buclePedirContrasena = false;
-                }
-            } while (buclePedirContrasena);
+                } while (buclePedirContrasena);
+            }
+            return true;
         }
-        return true;
+
     }
 
     public static void comprarPelicula() {
-        if (!films.isEmpty()) {
-            verTodasPeliculas();
-            
+        if (films.isEmpty() || users.isEmpty() || sessions.isEmpty()) {
+            System.out.println("faltan datos, revisa que existan peliculas, sesiones y usuarios");
+        } else {
+
+            String pelicula;
+            Film miPelicula; //importante
+            do {
+                verTodasPeliculas();
+                System.out.println("Qué pelicula quieres ver?");
+                pelicula = keyboard.next();
+                miPelicula = obtenerPelicula(pelicula);
+            } while (miPelicula == null);
+
             //escoger la pelicula
-            // ver todas las sesiones
-            //para escoger una sesion
-            //y escoger un dia
-            // si la sesion diaria no existe toca crearla con todos sus asientos
-            
-            //escoger un tipo de asiento
-            //visualizar todos los disponibles y comprar uno valido;
-            //
+            System.out.println("para esta pelicula tenemos estas sesiones");
+
+            ArrayList<Session> mySesiones = obtenerSesiones(miPelicula);
+            String eleccion;
+            int index;
+            do {
+                index = 0;
+                for (Session session : mySesiones) {
+                    index++;
+                    System.out.println(index + ") " + session.getHoraInicio());
+                }
+                System.out.println("Cual desea escoger");
+
+                eleccion = keyboard.next();
+                if (!isNumericBetween(1, index, eleccion)) {
+                    System.out.println("escriba un índice válido");
+                }
+            } while (!isNumericBetween(1, index, eleccion));
+            Session mySession = mySesiones.get(index - 1);//importante 
+
+            String dia;
+            do {
+                System.out.println("Que dia quiere ver la pelicula? dd/mm/aaaa");
+                dia = keyboard.next();
+
+                if (!isDate(dia)) {
+                    System.out.println("escriba una fecha valida");
+                }
+            } while (!isDate(dia));
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate myDia = LocalDate.parse(dia, format);
+            SesionDiaria mySesionDiaria = recogeSesionDiaria(myDia, mySession); //importante
+            if (mySesionDiaria == null) {
+                // crear sesionDiaria
+                crearSesionDiaria(mySession, myDia);
+                mySesionDiaria = recogeSesionDiaria(myDia, mySession);
+            }
+            // se procede a la compra del asiento
+
+            String indexAsientoStr;
+            int indexAsiento;
+            ArrayList<Integer> disponibles = new ArrayList<>();
+            ArrayList<Asiento> listaAsientos = new ArrayList<>();
+            String tipoAsiento;
+            do { //hay un softLock en el que si no quedan disponibles para ese dia, no te permite salir de aqui.
+                indexAsiento = -1;
+
+                tipoAsiento = eleccionAsiento();
+                switch (tipoAsiento) {
+                    case "1":
+                        listaAsientos = mySesionDiaria.getAsientosNormales();
+                        break;
+                    case "2":
+                        listaAsientos = mySesionDiaria.getAsientosVip();
+                        break;
+                    case "3":
+                        listaAsientos = mySesionDiaria.getAsientosAdaptados();
+                        break;
+                    default:
+                        break;
+                }
+
+                for (Asiento asiento : listaAsientos) {
+                    if (!asiento.getEstaOcupado()) {
+                        disponibles.add(asiento.getIndex());
+                    }
+                }
+
+                if (!disponibles.isEmpty()) {
+                    System.out.println("Estos son los asientos disponibles");
+                    for (int indice : disponibles) {
+                        System.out.println(indice + " ");
+                    }
+                    System.out.println("Que asiento desea?");
+                    indexAsientoStr = keyboard.next();
+                    if (isNumericPositive(indexAsientoStr)) {
+                        indexAsiento = Integer.parseInt(indexAsientoStr);
+                        if (!disponibles.contains(indexAsiento)) {
+                            System.out.println("numero de asiento incorrecto");
+                        }
+                    }
+
+                } else {
+                    System.out.println("no hay asientos disponibles de este tipo");
+                }
+
+            } while (!disponibles.contains(indexAsiento) && !tipoAsiento.equals("0"));
+
+            for (Asiento asiento : listaAsientos) {
+                if (asiento.getIndex() == indexAsiento) {
+                    asiento.setEstaOcupado(true);
+                    sesionUsuario.addCompra(asiento);
+                    System.out.println("compra finalizada");
+                }
+            }
 
         }
+
     }
-    public static void crearSesionDiaria(Session sesion,LocalDate dia){
+
+    public static String eleccionAsiento() {
+        String tipoAsiento;
+        do {
+            System.out.println("Que tipo de asiento desea");
+            System.out.println("1) Normal, 2) Vip, 3) adaptado");
+            tipoAsiento = keyboard.next();
+            if (!isNumericBetween(1, 3, tipoAsiento)) {
+                System.out.println("Porfavor, inserte un valor de tipo correcto");
+            }
+        } while (!isNumericBetween(0, 3, tipoAsiento));
+        return tipoAsiento;
+    }
+
+    public static SesionDiaria recogeSesionDiaria(LocalDate myDia, Session mySession) {
+        for (SesionDiaria sesionDiaria : calendario) {
+            if (sesionDiaria.getDia().isEqual(myDia) && sesionDiaria.getSesion() == mySession) {
+                return sesionDiaria;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList obtenerSesiones(Film pelicula) {
+        ArrayList<Session> mySesiones = new ArrayList<>();
+        for (Session session : sessions) {
+            if (session.getPelicula() == pelicula) {
+                mySesiones.add(session);
+            }
+        }
+        return mySesiones;
+    }
+
+    public static Film obtenerPelicula(String nombre) {
+        for (Film film : films) {
+            if (film.getTitle().equals(nombre)) {
+                return film;
+            }
+        }
+        return null;
+    }
+
+    public static void crearSesionDiaria(Session sesion, LocalDate dia) {
+        System.out.println("creando sesionDiaria nueva");
         //se crea un arraylist de Asientos llamado asientosNormales;
         //se crea un arraylist de Asientos llamado asientosVip;
         //se crea un arraylist de Asientos llamado asientosAdaptados;
-        
+
         //a traves de la sesion, vamos a la sala asignada, y la sala asignada, tiene el numero de asientos de cada tipo
         // se hacen 3 bucles for de la longitud del numero de asientos y por cada uno de ellos crea un asiento, con (enum TipoAsientosEnum,....
         //....indice del bucle+1, false, el objeto sala asignado a la sesion.) que se añaden al array.
         // y ya;
-            
+        ArrayList<Asiento> asientosNormales = new ArrayList<>();
+        ArrayList<Asiento> asientosVip = new ArrayList<>();
+        ArrayList<Asiento> asientosAdaptados = new ArrayList<>();
+
+        Room sala = sesion.getSala();
+
+        for (int i = 0; i < sala.getNumAsientos(); i++) {
+            asientosNormales.add(new Asiento(TipoAsientosEnum.Normal, i + 1, false, sala));
+        }
+
+        for (int i = 0; i < sala.getNumAsientosVip(); i++) {
+            asientosVip.add(new Asiento(TipoAsientosEnum.Vip, i + 1, false, sala));
+        }
+
+        for (int i = 0; i < sala.getNumAsientosAdaptados(); i++) {
+            asientosAdaptados.add(new Asiento(TipoAsientosEnum.Adaptado, i + 1, false, sala));
+        }
+
+        SesionDiaria sesionDiaria = new SesionDiaria(dia, sesion, asientosNormales, asientosVip, asientosAdaptados);
+        calendario.add(sesionDiaria);
     }
+
     public static int validarAsientos(String tipoAsiento) {
         int numAsientos;
         do {
             System.out.println("Numero de asientos " + tipoAsiento + " (Maximo 50): ");
             numAsientos = keyboard.nextInt();
-        } while (!isNumericBetween(1, 50, String.valueOf(numAsientos)));
+        } while (!isNumericBetween(0, 50, String.valueOf(numAsientos)));
         return numAsientos;
     }
+
     public static void crearSala() {
-        String numSala = validarStringNoVacio("Numero de Sala");
-        if (isRoomNumberUsed(numSala)) {
-            System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
-            return;
-        }
- 
+        String numSala;
+        do {
+            numSala = validarStringNoVacio("Numero de Sala");
+            if (isRoomNumberUsed(numSala)) {
+                System.out.println("Error: El numero de sala ya esta en uso. Por favor, elige otro numero.");
+            }
+        } while (isRoomNumberUsed(numSala));
+
         int numAsientos = validarAsientos("normales");
         int numAsientosVip = validarAsientos("VIP");
         int numAsientosAdaptados = validarAsientos("adaptados");
- 
+
         Room room = new Room(numSala, numAsientos, numAsientosVip, numAsientosAdaptados);
         rooms.add(room);
         System.out.println("Sala creada exitosamente!");
- 
+
     }
 
     public static void verTodasSalas() {
@@ -447,38 +668,33 @@ public class Main {
         return sala;
     }
 
-    public static Film validarPelicula() {
+    public static Film validarPelicula() { // falla
         String input;
         Film pelicula = null;
         do {
             verTodasPeliculas();
-            System.out.println("Ingrese el nombre de la pelicula:");
-            input = keyboard.next();
-            if (input == null || input.trim().isEmpty()) {
-                System.out.println("El campo no puede estar vacio. Por favor, intentalo de nuevo.");
-            } else {
-                for (Film film : films) {
-                    if (film.getTitle().equals(input)) {
-                        pelicula = film;
-                    }
+            input = validarStringNoVacio("nombre de la pelicula");
+            for (Film film : films) {
+                if (film.getTitle().equals(input)) {
+                    pelicula = film;
                 }
-                if (pelicula == null) {
-                    System.out.println("Inserte una pelicula correcta");
-                }
+            }
+            if (pelicula == null) {
+                System.out.println("Inserte una pelicula correcta");
             }
         } while (pelicula == null);
 
         return pelicula;
     }
 
-    public static LocalTime validarLocalTime() {
+    public static LocalTime validarLocalTime() { // falta validacion de solapamiento
         String strHora = null;
         String strMinutos = null;
-        System.out.println("Voy a necesitar la hora y luego los minutos del localTime");
+        System.out.println("Voy a necesitar la hora y los minutos en la cual se inicia la pelicula");
         do {
             System.out.println("Cual es la hora");
             strHora = keyboard.next();
-        } while (!isNumericBetween(0, 23, strHora));
+        } while (!isNumericBetween(8, 20, strHora));
         do {
             System.out.println("cuales son los minutos");
             strMinutos = keyboard.next();

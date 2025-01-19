@@ -35,7 +35,7 @@ public final class Asiento {
         this.index = index;
     }
 
-    public boolean isEstaOcupado() {
+    public boolean getEstaOcupado() {
         return estaOcupado;
     }
 

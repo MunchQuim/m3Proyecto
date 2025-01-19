@@ -59,7 +59,9 @@ public class User {
     public void setCompras(ArrayList compras) {
         this.compras = compras;
     }
-
+    public void addCompra(Asiento asiento){
+        this.compras.add(asiento);
+    }
     public User() {
     }
 
@@ -69,6 +71,7 @@ public class User {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.compras = new ArrayList<>();
     }
 
     @Override
@@ -94,5 +97,6 @@ public class User {
         infoTickets.append("-------------------\n");
         return infoTickets.toString();
     }
+
 
 }

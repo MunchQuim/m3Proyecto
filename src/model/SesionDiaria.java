@@ -27,7 +27,7 @@ public class SesionDiaria {
     }
 
     public Session getSesion() {
-        return sesion;
+        return this.sesion;
     }
 
     public void setSesion(Session sesion) {
@@ -35,7 +35,7 @@ public class SesionDiaria {
     }
 
     public ArrayList<Asiento> getAsientosNormales() {
-        return asientosNormales;
+        return this.asientosNormales;
     }
 
     public void setAsientosNormales(ArrayList<Asiento> asientosNormales) {
@@ -43,7 +43,7 @@ public class SesionDiaria {
     }
 
     public ArrayList<Asiento> getAsientosAdaptados() {
-        return asientosAdaptados;
+        return this.asientosAdaptados;
     }
 
     public void setAsientosAdaptados(ArrayList<Asiento> asientosAdaptados) {
@@ -51,14 +51,14 @@ public class SesionDiaria {
     }
 
     public ArrayList<Asiento> getAsientosVip() {
-        return asientosVip;
+        return this.asientosVip;
     }
 
     public void setAsientosVip(ArrayList<Asiento> asientosVip) {
         this.asientosVip = asientosVip;
     }
 
-    public SesionDiaria(LocalDate dia, Session sesion, ArrayList<Asiento> asientosNormales, ArrayList<Asiento> asientosAdaptados, ArrayList<Asiento> asientosVip) {
+    public SesionDiaria(LocalDate dia, Session sesion, ArrayList<Asiento> asientosNormales, ArrayList<Asiento> asientosVip,ArrayList<Asiento> asientosAdaptados) {
         this.dia = dia;
         this.sesion = sesion;
         this.asientosNormales = asientosNormales;
