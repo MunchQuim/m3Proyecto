@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.*;
+import exceptions.*;
 
 public class Main {
 
@@ -19,6 +20,7 @@ public class Main {
     static ArrayList<SesionDiaria> calendario = new ArrayList<>();
     static ArrayList<Room> rooms = new ArrayList<>();
     static User sesionUsuario;
+    static int intentos = 3;
 
     public static void main(String[] args) {
         keyboard.useDelimiter("\n");
@@ -65,11 +67,25 @@ public class Main {
                     verTodasSalas();
                     break;
                 case "8": //softblock en caso de no haber asientos libres
-                    if (iniciarSesion()) {
-                        comprarPelicula();
+                    try {
+                        if (iniciarSesion()) {
+
+                            comprarPelicula();
+
+                        }
+
+                    } catch (SinUsuariosException e) {
+                        System.out.println(e.getMessage());
+                    } catch (DemasiadosIntentosException e) {
+                        System.out.println(e.getMessage());
+                    } catch (SinAsientosDisponiblesException e) {
+                        System.out.println(e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Ha habido algun error");
                     }
 
                     break;
+
                 case "9":
                     verUsuarios();
                     break;
@@ -351,7 +367,7 @@ public class Main {
         return false;
     }
 
-    public static boolean iniciarSesion() {
+    public static boolean iniciarSesion() throws DemasiadosIntentosException, SinUsuariosException {
         // si hay sesion iniciada
         //preguntar si quieres comprar una pelicula con el usuario X (email)
         // si sí, nada, si no, borra la sesion;
@@ -362,9 +378,9 @@ public class Main {
         // si no es correcta, contraseña no correcta, quiere seguir intentandolo?
         // si si, continua
         // si no, sale al menu
+
         if (users.isEmpty()) {
-            System.out.println("Faltan usuarios por crear");
-            return false;
+            throw new SinUsuariosException("Sin usuarios registrados");
         } else {
             if (sesionUsuario != null) {
                 String respuesta = "";
@@ -384,6 +400,9 @@ public class Main {
                 String password = "";
                 boolean buclePedirCorreo = true;
                 boolean buclePedirContrasena = true;
+                if (intentos <= 0) {
+                    throw new DemasiadosIntentosException("Demasiados intentos, sesion bloqueada");
+                }
                 do {
                     System.out.println("Vamos a iniciar tu sesion");
                     System.out.println("Necesito tu correo electronico");
@@ -407,14 +426,20 @@ public class Main {
                     if (!login(email, password)) {
                         do {
                             System.out.println("contraseña erronea, quieres volverlo a intentar? s/n");
+                            intentos--;
+                            if (intentos <= 0) {
+                                throw new DemasiadosIntentosException("Demasiados intentos, Cuenta bloqueada");
+                            }
                             respuesta = keyboard.next().toLowerCase();
                         } while (!respuesta.equals("s") && !respuesta.equals("n"));
                         if (respuesta.equals("n")) {
                             System.out.println("saliendo..");
                             return false;
                         }
+
                     } else {
                         System.out.println("Sesion iniciada como " + sesionUsuario.getEmail());
+                        intentos = 3;
                         buclePedirContrasena = false;
                     }
                 } while (buclePedirContrasena);
@@ -424,7 +449,7 @@ public class Main {
 
     }
 
-    public static void comprarPelicula() {
+    public static void comprarPelicula() throws SinAsientosDisponiblesException {
         if (films.isEmpty() || users.isEmpty() || sessions.isEmpty()) {
             System.out.println("faltan datos, revisa que existan peliculas, sesiones y usuarios");
         } else {
@@ -476,6 +501,27 @@ public class Main {
                 crearSesionDiaria(mySession, myDia);
                 mySesionDiaria = recogeSesionDiaria(myDia, mySession);
             }
+            ArrayList<Asiento> listaTodosAsientos = new ArrayList<>();
+            for (Asiento asiento : mySesionDiaria.getAsientosNormales()) {
+                if (!asiento.getEstaOcupado()) {
+                    listaTodosAsientos.add(asiento);
+                }
+            }
+
+            for (Asiento asiento : mySesionDiaria.getAsientosVip()) {
+                if (!asiento.getEstaOcupado()) {
+                    listaTodosAsientos.add(asiento);
+                }
+            }
+
+            for (Asiento asiento : mySesionDiaria.getAsientosAdaptados()) {
+                if (!asiento.getEstaOcupado()) {
+                    listaTodosAsientos.add(asiento);
+                }
+            }
+            if (listaTodosAsientos.isEmpty()) {
+                throw new SinAsientosDisponiblesException("no hay asientos disponibles de este tipo");
+            }
             // se procede a la compra del asiento
 
             String indexAsientoStr;
@@ -521,8 +567,6 @@ public class Main {
                         }
                     }
 
-                } else {
-                    System.out.println("no hay asientos disponibles de este tipo");
                 }
 
             } while (!disponibles.contains(indexAsiento) && !tipoAsiento.equals("0"));
@@ -739,4 +783,5 @@ public class Main {
 
         return (num >= a && num <= b);
     }
+
 }
