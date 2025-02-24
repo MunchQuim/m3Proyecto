@@ -201,6 +201,6 @@ public class Cine {
     }
 
     public static boolean validarSoloLetras(String str) {
-        return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");
+        return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")&&str.replaceAll(" ","").length()>0;
     }
 }
