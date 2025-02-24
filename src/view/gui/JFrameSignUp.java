@@ -13,8 +13,8 @@ public class JFrameSignUp extends javax.swing.JFrame {
         String apellidos;
         String email;
         String telefono;
-        char[] password;
-        char[] cPassword;
+        String password;
+        String cPassword;
     /**
      * Creates new form JFrameSignUp
      */
@@ -347,11 +347,18 @@ public class JFrameSignUp extends javax.swing.JFrame {
     private void registrarseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarseBtnActionPerformed
         // TODO add your handling code here:
         nombre = this.nombreTxt.getText();
+        boolean nombreCheck = false;
         apellidos = this.apellidosTxt.getText();
+        boolean appellidosCheck = false;
         email = this.emailTxt.getText();
+        boolean emailCheck = false;
         telefono = this.phoneTxt.getText();
-        password = this.passwordTxt.getPassword();
-        cPassword = this.repeatTxt.getPassword();
+        
+        password = new String(this.passwordTxt.getPassword());
+        cPassword = new String(this.repeatTxt.getPassword());
+           
+        boolean passwordsCheck = password.equals(cPassword); 
+        boolean phoneCheck = NewJFrameHome.myCinema.validarTelefono(telefono);
     }//GEN-LAST:event_registrarseBtnActionPerformed
 
     /**

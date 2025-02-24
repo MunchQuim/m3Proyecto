@@ -160,7 +160,7 @@ public class Cine {
         }
         return null;
     }
-    
+
     public boolean isDate(String pDate) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
@@ -194,5 +194,13 @@ public class Cine {
         }
 
         return (num >= a && num <= b);
+    }
+
+    public boolean validarStringNoVacio(String str) {
+        return str.replaceAll("[ ]", "").length() > 0;
+    }
+
+    public static boolean validarSoloLetras(String str) {
+        return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");
     }
 }

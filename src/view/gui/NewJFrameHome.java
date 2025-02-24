@@ -3,19 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view.gui;
+
 import model.*;
+
 /**
  *
  * @author joaquimpinsot
  */
 public class NewJFrameHome extends javax.swing.JFrame {
 
+    static Cine myCinema = new Cine();
+
     /**
      * Creates new form NewJFrameHome
      */
     public NewJFrameHome() {
         initComponents();
-        Cine myCinema = new Cine();
+
     }
 
     /**
@@ -132,7 +136,7 @@ public class NewJFrameHome extends javax.swing.JFrame {
 
     private void UserPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserPageBtnActionPerformed
         // TODO add your handling code here:
-        JFrameUserView jFrameUserView= new JFrameUserView();
+        JFrameUserView jFrameUserView = new JFrameUserView();
         jFrameUserView.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_UserPageBtnActionPerformed
