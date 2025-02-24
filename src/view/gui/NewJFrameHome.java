@@ -26,21 +26,115 @@ public class NewJFrameHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        CinemaNamePanel = new javax.swing.JPanel();
+        CinemaNameLbl = new javax.swing.JLabel();
+        BodyPanel = new javax.swing.JPanel();
+        AdminPageBtn = new javax.swing.JButton();
+        UserPageBtn = new javax.swing.JButton();
+        selectYourViewLbl = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        CinemaNameLbl.setFont(new java.awt.Font("Engravers MT", 0, 48)); // NOI18N
+        CinemaNameLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CinemaNameLbl.setText("Cines Hidalgo");
+
+        javax.swing.GroupLayout CinemaNamePanelLayout = new javax.swing.GroupLayout(CinemaNamePanel);
+        CinemaNamePanel.setLayout(CinemaNamePanelLayout);
+        CinemaNamePanelLayout.setHorizontalGroup(
+            CinemaNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CinemaNamePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(CinemaNameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        CinemaNamePanelLayout.setVerticalGroup(
+            CinemaNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CinemaNamePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(CinemaNameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        AdminPageBtn.setText("Admin");
+        AdminPageBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminPageBtnActionPerformed(evt);
+            }
+        });
+
+        UserPageBtn.setText("Users");
+        UserPageBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserPageBtnActionPerformed(evt);
+            }
+        });
+
+        selectYourViewLbl.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        selectYourViewLbl.setText("Select your View");
+
+        javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
+        BodyPanel.setLayout(BodyPanelLayout);
+        BodyPanelLayout.setHorizontalGroup(
+            BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyPanelLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(UserPageBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AdminPageBtn)
+                .addGap(55, 55, 55))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(selectYourViewLbl)
+                .addGap(166, 166, 166))
+        );
+        BodyPanelLayout.setVerticalGroup(
+            BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BodyPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(selectYourViewLbl)
+                .addGap(80, 80, 80)
+                .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AdminPageBtn)
+                    .addComponent(UserPageBtn))
+                .addContainerGap(86, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CinemaNamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(CinemaNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void AdminPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPageBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AdminPageBtnActionPerformed
+
+    private void UserPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserPageBtnActionPerformed
+        // TODO add your handling code here:
+        JFrameUserView jFrameUserView= new JFrameUserView();
+        jFrameUserView.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_UserPageBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +172,11 @@ public class NewJFrameHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AdminPageBtn;
+    private javax.swing.JPanel BodyPanel;
+    private javax.swing.JLabel CinemaNameLbl;
+    private javax.swing.JPanel CinemaNamePanel;
+    private javax.swing.JButton UserPageBtn;
+    private javax.swing.JLabel selectYourViewLbl;
     // End of variables declaration//GEN-END:variables
 }
