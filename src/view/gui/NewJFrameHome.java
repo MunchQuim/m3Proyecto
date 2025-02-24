@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view.gui;
-
+import model.*;
 /**
  *
  * @author joaquimpinsot
@@ -15,6 +15,7 @@ public class NewJFrameHome extends javax.swing.JFrame {
      */
     public NewJFrameHome() {
         initComponents();
+        Cine myCinema = new Cine();
     }
 
     /**
