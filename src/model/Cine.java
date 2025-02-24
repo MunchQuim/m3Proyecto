@@ -200,7 +200,7 @@ public class Cine {
         return str.replaceAll("[ ]", "").length() > 0;
     }
 
-    public static boolean validarSoloLetras(String str) {
+    public boolean validarSoloLetras(String str) {
         return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")&&str.replaceAll(" ","").length()>0;
     }
 }
