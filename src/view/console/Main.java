@@ -18,7 +18,11 @@ public class Main {
     static ArrayList<Film> films = new ArrayList<>();
     static ArrayList<Session> sessions = new ArrayList<>();
     static ArrayList<SesionDiaria> calendario = new ArrayList<>();
+<<<<<<< HEAD
     public static ArrayList<Room> rooms = new ArrayList<>();
+=======
+    static ArrayList<Room> rooms = new ArrayList<>();
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
     static User sesionUsuario;
     static int intentos = 3;
 
@@ -235,6 +239,7 @@ public class Main {
 
         System.out.println("Pelicula agregada exitosamente!");
     }
+<<<<<<< HEAD
     
             public static void anadirPeliculaJFrame(String title, int duration) {
         if (isTitleUsed(title)) {
@@ -248,6 +253,9 @@ public class Main {
         System.out.println("Pelicula agregada exitosamente!");
     }
         
+=======
+
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
     public static void verUsuarios() {
         if (users.isEmpty()) {
             System.out.println("No hay usuarios registrados.");
@@ -795,6 +803,7 @@ public class Main {
 
         return (num >= a && num <= b);
     }
+<<<<<<< HEAD
     
     /**
      * Returns the list of rooms.
@@ -843,5 +852,7 @@ public class Main {
             return "El valor debe ser un número válido";
         }
     }
+=======
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
 
 }
