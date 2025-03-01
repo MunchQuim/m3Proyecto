@@ -18,7 +18,11 @@ public class Main {
     static ArrayList<Film> films = new ArrayList<>();
     static ArrayList<Session> sessions = new ArrayList<>();
     static ArrayList<SesionDiaria> calendario = new ArrayList<>();
+<<<<<<< HEAD
+    public static ArrayList<Room> rooms = new ArrayList<>();
+=======
     static ArrayList<Room> rooms = new ArrayList<>();
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
     static User sesionUsuario;
     static int intentos = 3;
 
@@ -235,7 +239,23 @@ public class Main {
 
         System.out.println("Pelicula agregada exitosamente!");
     }
+<<<<<<< HEAD
+    
+            public static void anadirPeliculaJFrame(String title, int duration) {
+        if (isTitleUsed(title)) {
+            System.out.println("Titulo ya en uso.");
+            return;
+        }
+    
+        Film film = new Film(title, duration);
+        films.add(film);
+    
+        System.out.println("Pelicula agregada exitosamente!");
+    }
+        
+=======
 
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
     public static void verUsuarios() {
         if (users.isEmpty()) {
             System.out.println("No hay usuarios registrados.");
@@ -783,5 +803,56 @@ public class Main {
 
         return (num >= a && num <= b);
     }
+<<<<<<< HEAD
+    
+    /**
+     * Returns the list of rooms.
+     * @return ArrayList<Room> The list of rooms
+     */
+    public static ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
+    /**
+     * Returns the list of films.
+     * @return ArrayList<Film> The list of films
+     */
+    public static ArrayList<Film> getFilms() {
+        return films;
+    }
+
+    /**
+     * Simple validation for non-empty string - GUI version
+     * @param field Field name
+     * @param value Value to check
+     * @return Null if valid, error message otherwise
+     */
+    public static String validateNonEmpty(String field, String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return "El campo " + field + " no puede estar vacío";
+        }
+        return null;
+    }
+
+    /**
+     * Simple validation for number range - GUI version
+     * @param min Minimum value
+     * @param max Maximum value
+     * @param value Value to check
+     * @return Null if valid, error message otherwise
+     */
+    public static String validateNumberRange(int min, int max, String value) {
+        try {
+            int numValue = Integer.parseInt(value);
+            if (numValue < min || numValue > max) {
+                return "El valor debe estar entre " + min + " y " + max;
+            }
+            return null;
+        } catch (NumberFormatException e) {
+            return "El valor debe ser un número válido";
+        }
+    }
+=======
+>>>>>>> f70c30cea476bc723b0ad7244d32059dcab97118
 
 }
