@@ -18,12 +18,12 @@ public class NewJFrameHome extends javax.swing.JFrame {
     static JFrameUserView jFrameUserView = new JFrameUserView();
     static NewJFrameHome newJFrameHome = new NewJFrameHome();
     static JFrameUserHome UserHome = new JFrameUserHome();
+    
     /**
      * Creates new form NewJFrameHome
      */
     public NewJFrameHome() {
         initComponents();
-
     }
 
     /**

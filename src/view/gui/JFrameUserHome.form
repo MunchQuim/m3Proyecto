@@ -101,6 +101,7 @@
             <Component class="javax.swing.JLabel" name="nombreLbl">
               <Properties>
                 <Property name="text" type="java.lang.String" value="nombre"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
           </SubComponents>
@@ -140,8 +141,11 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="logoutBtn">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Salir"/>
+            <Property name="text" type="java.lang.String" value="Inicio"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="comprarBtn">
           <Properties>

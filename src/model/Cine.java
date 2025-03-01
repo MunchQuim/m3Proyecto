@@ -138,14 +138,17 @@ public class Cine {
     }
 
     public boolean canLogin(String email, String password) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                if (user.getPassword().equals(password)) {
-                    sesionUsuario = user;
-                    return true;
+        if (!this.users.isEmpty()) {
+            for (User user : users) {
+                if (user.getEmail().equals(email)) {
+                    if (user.getPassword().equals(password)) {
+                        sesionUsuario = user;
+                        return true;
+                    }
                 }
             }
         }
+
         return false;
     }
 
@@ -207,8 +210,7 @@ public class Cine {
     }
 
     public boolean validarSoloLetras(String str) {
-        return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")&&str.replaceAll(" ","").length()>0;
+        return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+") && str.replaceAll(" ", "").length() > 0;
     }
-    
-    
+
 }

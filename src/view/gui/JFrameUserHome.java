@@ -9,14 +9,18 @@ package view.gui;
  * @author Quim
  */
 public class JFrameUserHome extends javax.swing.JFrame {
-
     /**
      * Creates new form UserHome
      */
     public JFrameUserHome() {
         initComponents();
-    }
 
+    }
+    public void actualizarNombre(){
+        if(NewJFrameHome.myCinema.getSesionUsuario() != null){
+            this.nombreLbl.setText(NewJFrameHome.myCinema.getSesionUsuario().getNombre());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,6 +44,7 @@ public class JFrameUserHome extends javax.swing.JFrame {
         bienvenidoLbl.setText("Bienvenido");
 
         nombreLbl.setText("nombre");
+        nombreLbl.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -76,7 +81,12 @@ public class JFrameUserHome extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        logoutBtn.setText("Salir");
+        logoutBtn.setText("Inicio");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
 
         comprarBtn.setText("Comprar");
 
@@ -129,6 +139,12 @@ public class JFrameUserHome extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        // TODO add your handling code here:
+        NewJFrameHome.newJFrameHome.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
      * @param args the command line arguments
