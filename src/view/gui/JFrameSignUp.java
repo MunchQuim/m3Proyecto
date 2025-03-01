@@ -4,23 +4,44 @@
  */
 package view.gui;
 
+import model.User;
+
 /**
  *
  * @author joaquimpinsot
  */
 public class JFrameSignUp extends javax.swing.JFrame {
-        String nombre;
-        String apellidos;
-        String email;
-        String telefono;
-        String password;
-        String cPassword;
+
+    String nombre;
+    String apellidos;
+    String email;
+    String telefono;
+    String password;
+    String cPassword;
+    boolean passwordsCheck = true;
+    boolean phoneCheck = true;
+    boolean emailCheck = true;
+    boolean nombreCheck = true;
+    boolean apellidosCheck = true;
+
     /**
      * Creates new form JFrameSignUp
      */
     public JFrameSignUp() {
         initComponents();
+        clearFields();
+        setAlerts();
+    }
 
+    private void setAlerts() {
+        this.repeatAlert.setVisible(!passwordsCheck);
+        this.phoneAlerta.setVisible(!phoneCheck);
+        this.emailAlerta.setVisible(!emailCheck);
+        this.nombreAlerta.setVisible(!nombreCheck);
+        this.apellidosAlerta.setVisible(!apellidosCheck);
+    }
+    private void clearFields() {
+       
     }
 
     /**
@@ -61,10 +82,10 @@ public class JFrameSignUp extends javax.swing.JFrame {
         jLabel3.setText("Nombre Invalido");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         nombreLbl.setText("Nombre");
 
-        nombreTxt.setText("Nombre");
         nombreTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreTxtActionPerformed(evt);
@@ -83,7 +104,7 @@ public class JFrameSignUp extends javax.swing.JFrame {
                     .addComponent(nombreLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nombreTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nombreAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(nombreAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -100,7 +121,6 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
         apellidosLbl.setText("Apellidos");
 
-        apellidosTxt.setText("Apellidos");
         apellidosTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 apellidosTxtActionPerformed(evt);
@@ -119,7 +139,7 @@ public class JFrameSignUp extends javax.swing.JFrame {
                     .addComponent(apellidosLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(apellidosTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(apellidosAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(apellidosAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -136,7 +156,6 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
         emailLbl.setText("Email");
 
-        emailTxt.setText("Email");
         emailTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailTxtActionPerformed(evt);
@@ -155,7 +174,7 @@ public class JFrameSignUp extends javax.swing.JFrame {
                     .addComponent(emailLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(emailTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(emailAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(emailAlerta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -172,7 +191,6 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
         passwordLbl.setText("Contraseña");
 
-        passwordTxt.setText("jPasswordField1");
         passwordTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordTxtActionPerformed(evt);
@@ -185,9 +203,9 @@ public class JFrameSignUp extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(passwordLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(passwordTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -202,7 +220,6 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
         phoneLbl.setText("Teléfono");
 
-        phoneTxt.setText("Teléfono");
         phoneTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTxtActionPerformed(evt);
@@ -240,8 +257,6 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
         repeatAlert.setText("Las contraseñas no coinciden");
 
-        repeatTxt.setText("jPasswordField1");
-
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -252,7 +267,7 @@ public class JFrameSignUp extends javax.swing.JFrame {
                     .addComponent(repeatLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(repeatTxt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(repeatAlert, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                .addComponent(repeatAlert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,21 +293,22 @@ public class JFrameSignUp extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(registrarseBtn)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(198, 198, 198)
-                .addComponent(registrarseBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,18 +318,18 @@ public class JFrameSignUp extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(registrarseBtn)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -321,44 +337,55 @@ public class JFrameSignUp extends javax.swing.JFrame {
 
     private void nombreTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTxtActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_nombreTxtActionPerformed
 
     private void apellidosTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidosTxtActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_apellidosTxtActionPerformed
 
     private void emailTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTxtActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_emailTxtActionPerformed
 
     private void phoneTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTxtActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_phoneTxtActionPerformed
 
     private void passwordTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTxtActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_passwordTxtActionPerformed
 
     private void registrarseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarseBtnActionPerformed
         // TODO add your handling code here:
         nombre = this.nombreTxt.getText();
-        boolean nombreCheck = false;
         apellidos = this.apellidosTxt.getText();
-        boolean appellidosCheck = false;
         email = this.emailTxt.getText();
-        boolean emailCheck = false;
         telefono = this.phoneTxt.getText();
-        
         password = new String(this.passwordTxt.getPassword());
         cPassword = new String(this.repeatTxt.getPassword());
-           
-        boolean passwordsCheck = password.equals(cPassword); 
-        boolean phoneCheck = NewJFrameHome.myCinema.validarTelefono(telefono);
+
+        passwordsCheck = password.equals(cPassword);
+        phoneCheck = NewJFrameHome.myCinema.validarTelefono(telefono);
+        emailCheck = NewJFrameHome.myCinema.validarEmail(email);
+        nombreCheck = NewJFrameHome.myCinema.validarSoloLetras(nombre);
+        apellidosCheck = NewJFrameHome.myCinema.validarSoloLetras(apellidos);
+        
+        setAlerts();
+        
+        boolean allChecked = passwordsCheck && phoneCheck && emailCheck && nombreCheck && apellidosCheck;
+        if (allChecked) {
+            User newUser = new User(nombre, apellidos, telefono, email, password);
+            NewJFrameHome.myCinema.getUsers().add(newUser);
+            NewJFrameHome.myCinema.setSesionUsuario(newUser);
+            NewJFrameHome.UserHome.setVisible(true);
+            this.setVisible(false);
+        }
+
     }//GEN-LAST:event_registrarseBtnActionPerformed
 
     /**

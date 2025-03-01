@@ -36,6 +36,12 @@ public class Cine {
     }
 
     public Cine() {
+        this.users = new ArrayList<>();
+        this.films = new ArrayList<>();
+        this.sessions = new ArrayList<>();
+        this.calendario = new ArrayList<>();
+        this.rooms = new ArrayList<>();
+        this.intentos = 3;
     }
 
     public ArrayList<User> getUsers() {
@@ -203,4 +209,6 @@ public class Cine {
     public boolean validarSoloLetras(String str) {
         return str.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")&&str.replaceAll(" ","").length()>0;
     }
+    
+    
 }

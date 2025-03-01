@@ -13,7 +13,11 @@ import model.*;
 public class NewJFrameHome extends javax.swing.JFrame {
 
     static Cine myCinema = new Cine();
-
+    static JFrameLogIn login = new JFrameLogIn();
+    static JFrameSignUp signUp = new JFrameSignUp();
+    static JFrameUserView jFrameUserView = new JFrameUserView();
+    static NewJFrameHome newJFrameHome = new NewJFrameHome();
+    static JFrameUserHome UserHome = new JFrameUserHome();
     /**
      * Creates new form NewJFrameHome
      */
@@ -136,7 +140,6 @@ public class NewJFrameHome extends javax.swing.JFrame {
 
     private void UserPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserPageBtnActionPerformed
         // TODO add your handling code here:
-        JFrameUserView jFrameUserView = new JFrameUserView();
         jFrameUserView.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_UserPageBtnActionPerformed

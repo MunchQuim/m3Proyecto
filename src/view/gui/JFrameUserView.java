@@ -156,15 +156,13 @@ public class JFrameUserView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
-        JFrameSignUp signUp = new JFrameSignUp();
-        signUp.setVisible(true);
-         this.setVisible(false);
+        NewJFrameHome.signUp.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_SignUpBtnActionPerformed
 
     private void volverBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverBtnActionPerformed
-        NewJFrameHome newHome = new NewJFrameHome();
-        newHome.setVisible(true);
-         this.setVisible(false);
+        NewJFrameHome.newJFrameHome.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_volverBtnActionPerformed
 
     private void salirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBtnActionPerformed
@@ -172,9 +170,8 @@ public class JFrameUserView extends javax.swing.JFrame {
     }//GEN-LAST:event_salirBtnActionPerformed
 
     private void LogInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogInBtnActionPerformed
-        JFrameLogIn login = new JFrameLogIn();
-        login.setVisible(true);
-         this.setVisible(false);
+        NewJFrameHome.login.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_LogInBtnActionPerformed
 
     /**
